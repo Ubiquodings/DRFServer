@@ -43,6 +43,7 @@ INSTALLED_APPS += [
     'corsheaders',
     'rest_framework',
     'django_elasticsearch_dsl',
+    'search',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +135,8 @@ ELASTICSEARCH_DSL = {
         'host': ES_SECRET_KEY
     },
 }
+
+# etri api key
+with open(os.path.join(BASE_DIR, 'env/etc/etri.txt')) as f:
+    ETRI_API_KEY = f.read().strip()
+

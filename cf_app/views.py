@@ -56,3 +56,6 @@ def test_es_list_api(request):
     print(response)
 
     return Response({"message": response}, status=status.HTTP_200_OK)
+
+
+# def search_test():
