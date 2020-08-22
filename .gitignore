@@ -11,3 +11,7 @@ env/etc
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+## Python compiled byte code
+__pycache__
+*.pyc

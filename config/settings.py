@@ -42,6 +42,7 @@ INSTALLED_APPS += [
     'cf_app',
     'corsheaders',
     'rest_framework',
+    'django_elasticsearch_dsl',
 ]
 
 MIDDLEWARE = [
@@ -123,3 +124,13 @@ STATIC_URL = '/static/'
 
 # cors
 CORS_ORIGIN_ALLOW_ALL = True
+
+# elastic search
+with open(os.path.join(BASE_DIR, 'env/etc/es.txt')) as f:
+    ES_SECRET_KEY = f.read().strip()
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'host': ES_SECRET_KEY
+    },
+}
