@@ -1,0 +1,13 @@
+## IDE Config
+.idea
+
+## virtual env
+django_py36
+
+## env
+env/etc
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
