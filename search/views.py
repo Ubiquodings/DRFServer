@@ -18,7 +18,10 @@ def test_api(request):
     accessKey = settings.ETRI_API_KEY  # "YOUR_ACCESS_KEY"
     analysisCode = "morp"
     # analysisCode = "ner"
-    text = request.query_params.get('text') #"YOUR_SENTENCE" # /?text=sisi
+    text = request.query_params.get('text')  # "YOUR_SENTENCE" # /?text=sisi
+    if text == '':
+        print('\nError\nproductInfo :\n', text)
+        return Response({"result": {}}, status=status.HTTP_400_BAD_REQUEST)
 
     requestJson = {
         "access_key": accessKey,
@@ -44,6 +47,12 @@ def test_api(request):
     response = json.loads(response)
 
     # response = response["message"]
-    response = response["return_object"]["sentence"][0]["morp"]  # list
+    try:
+        response = response["return_object"]["sentence"][0]["morp"]  # list
+    except:
+        print('\nError\nproductInfo :\n', text, '\nresponse :\n', response)
+        return Response({"result": {}}, status=status.HTTP_404_NOT_FOUND)
+
+    print('\nproductInfo :\n', text, '\nresponse :\n', response)
 
     return Response({"result": response}, status=status.HTTP_200_OK)
