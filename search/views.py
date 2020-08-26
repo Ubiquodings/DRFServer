@@ -38,9 +38,7 @@ def test_api(request):
         headers={"Content-Type": "application/json; charset=UTF-8"},
         body=json.dumps(requestJson)
     )
-
     print("[responseCode] " + str(response.status))
-
     # Decode UTF-8 bytes to Unicode, and convert single quotes
     response = response.data.decode('utf8').replace("'", '"')
     # Load the JSON to a Python list
@@ -54,5 +52,13 @@ def test_api(request):
         return Response({"result": {}}, status=status.HTTP_404_NOT_FOUND)
 
     print('\nproductInfo :\n', text, '\nresponse :\n', response)
+    print('response-type: ', type(response))
+
+    for i,item in enumerate(response):
+        if item['type'] in ['ETM','SS','SP']:
+            print('index: ',i)
+            # 제거
+            del response[i]
+            # response.remove(i)
 
     return Response({"result": response}, status=status.HTTP_200_OK)
