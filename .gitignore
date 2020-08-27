@@ -15,3 +15,6 @@ env/etc
 ## Python compiled byte code
 __pycache__
 *.pyc
+
+# ipynb
+.ipynb*
