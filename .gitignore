@@ -13,9 +13,8 @@ env/etc
 !.elasticbeanstalk/*.global.yml
 
 ## Python compiled byte code
-*/__pycache__
+__pycache__
 *.pyc
-*/__pycache__/
 
 # ipynb
 .ipynb*
