@@ -10,6 +10,8 @@ docutils==0.15.2
 elasticsearch==7.9.1
 elasticsearch-dsl==7.2.1
 jmespath==0.10.0
+numpy==1.19.1
+pandas==1.1.1
 python-dateutil==2.8.1
 pytz==2020.1
 s3transfer==0.3.3
