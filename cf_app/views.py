@@ -101,7 +101,7 @@ def get_last50_for_category_score_from_ES(request):
     # category_score 계산 로직
     response = get_pretty_response(response)
     category_score = collections.defaultdict(int)
-    for action in response:
+    for action in response:  # 
         category_score[action['categoryId']] += 1
 
     # 근데 사실 필요한건 가장 점수가 높은 카테고리 값!
