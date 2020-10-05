@@ -99,7 +99,11 @@ def get_last50_for_category_score_from_ES(request):
     # print(response)
 
     # category_score 계산 로직
-    response = get_pretty_response(response)
+    try:
+        response = get_pretty_response(response)
+    except:
+        return Response({}, status=status.HTTP_404_NOT_FOUND)
+
     category_score = collections.defaultdict(int)
     for action in response:  # 
         category_score[action['categoryId']] += 1
