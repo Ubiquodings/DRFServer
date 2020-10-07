@@ -157,18 +157,11 @@ def test_es_get_all_api(request):
     response = json.loads(response)
     print("[response] " + str(response))
 
-    # ES_INDEX_URL = settings.ES_SECRET_KEY + f'/{index_name}/_search/?size={size}'
-    #
-    # response = http.request(
-    #     "GET",
-    #     ES_INDEX_URL,
-    #     headers={"Content-Type": "application/json; charset=UTF-8"},
-    #     body={}  # json.dumps(requestJson)
-    # )
-    # print("[responseCode] " + str(response.status))
-    # # Decode UTF-8 bytes to Unicode, and convert single quotes
-    # response = response.data.decode('utf8').replace("'", '"')
-    # # Load the JSON to a Python list
-    # response = json.loads(response)
-
     return Response({"message": response}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def test_get_productIdList_api(request):
+    response = [11794, 6079, 9694, 20522, 5607, 8328, 10121, 45417, 11809, 46176, 17745, 18456, 18616, 45552, 2171,
+                5424, 2095, 2123, 2000, 6000, 1071, 987, 5968, 1045, 1784, 1016, 2045, 2140]
+    return Response({"productIdList":response}, status=status.HTTP_200_OK)

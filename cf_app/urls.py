@@ -1,7 +1,6 @@
 from django.urls import path
 from . import views
 
-
 urlpatterns = [
     # /cf/
     path('test/', views.test_api),
@@ -13,4 +12,7 @@ urlpatterns = [
     path('category-score/', views.get_last50_for_category_score_from_ES),
 
     path('es-index-list/', views.test_es_get_all_api),
+
+    # 쇼핑몰에 productIdList 하드코딩 반환하는 api
+    path('get-product-ids/', views.test_get_productIdList_api),
 ]
