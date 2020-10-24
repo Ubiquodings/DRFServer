@@ -2,6 +2,7 @@ import collections
 
 import urllib3
 import json
+import pickle
 import pandas as pd
 
 from rest_framework import status
@@ -82,7 +83,7 @@ def get_last50_for_category_score_from_ES(request):
             "userId": user_id
         }}}  # _all
     )["count"]
-    print(size)
+    print('size',size)
 
     response = client.search(
         index=index_name,
@@ -105,8 +106,16 @@ def get_last50_for_category_score_from_ES(request):
         return Response({}, status=status.HTTP_404_NOT_FOUND)
 
     category_score = collections.defaultdict(int)
-    for action in response:  # 
-        category_score[action['categoryId']] += 1
+    for action in response:  #
+        # print(action['actionType'])
+        if action['actionType'] == 'hover':
+            category_score[action['categoryId']] += 1
+        elif action['actionType'] == 'click':
+            category_score[action['categoryId']] += 3
+        elif action['actionType'] == 'cart-create':
+            category_score[action['categoryId']] += 5
+        elif action['actionType'] == 'order-create':
+            category_score[action['categoryId']] += 7
 
     # 근데 사실 필요한건 가장 점수가 높은 카테고리 값!
     def return_value_from_dict(x):
@@ -123,7 +132,47 @@ def get_last50_for_category_score_from_ES(request):
     }, status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+def get_all_es_data(request):
+    """
+    elastic search 모든 데이터 가져와서 userCF 연산 적용한다
+    """
+    index_name = 'ubic_click_action'
+
+    client = Elasticsearch(settings.ES_SECRET_KEY)
+
+    size = client.count(
+        index=index_name,
+        body={'query': {"match_all": {
+        }}}  # _all
+    )["count"]
+    print(size)
+
+    response = client.search(
+        index=index_name,
+        body={
+            "query": {
+                "match_all": {  # _all
+                }
+            }
+        },
+        size=size,
+        filter_path=['hits.hits._source']  # 이 아래 내용만 나온다는건데 별로 필요없음
+    )
+
+    try:
+        response = get_pretty_response(response)
+    except:
+        return Response({}, status=status.HTTP_404_NOT_FOUND)
+
+    return Response(response
+                    , status=status.HTTP_200_OK)
+
+
 def get_pretty_response(response):
+    """
+    elastic search data 파싱 작업 함수
+    """
     response = response['hits']['hits']  # list : filter_path
     # df = pd.DataFrame(response)
 
@@ -164,4 +213,22 @@ def test_es_get_all_api(request):
 def test_get_productIdList_api(request):
     response = [11794, 6079, 9694, 20522, 5607, 8328, 10121, 45417, 11809, 46176, 17745, 18456, 18616, 45552, 2171,
                 5424, 2095, 2123, 2000, 6000, 1071, 987, 5968, 1045, 1784, 1016, 2045, 2140]
-    return Response({"productIdList":response}, status=status.HTTP_200_OK)
+    return Response({"productIdList": response}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def test_write_pkl_api(request):
+    productIdList = [11794, 6079, 9694, 20522, 5607, 8328, 10121, 45417, 11809, 46176, 17745, 18456, 18616, 45552, 2171,
+                     5424, 2095, 2123, 2000, 6000, 1071, 987, 5968, 1045, 1784, 1016, 2045, 2140]
+    with open('list.pkl', 'wb') as f:
+        pickle.dump(productIdList, f)
+
+    return Response({}, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def test_read_pkl_api(request):
+    with open('list.pkl', 'rb') as f:
+        data = pickle.load(f)
+    print(data)
+    return Response({"message": data}, status=status.HTTP_200_OK)
