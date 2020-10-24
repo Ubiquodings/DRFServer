@@ -17,7 +17,12 @@ urlpatterns = [
     path('es-index-list/', views.test_es_get_all_api),
 
     # 쇼핑몰에 productIdList 하드코딩 반환하는 api
-    path('get-product-ids/', views.test_get_productIdList_api),
+    path('get-product-ids1/', views.test_get_productIdList_api1),
+    path('get-product-ids2/', views.test_get_productIdList_api2),
+    path('get-product-ids3/', views.test_get_productIdList_api3),
+    path('get-product-ids4/', views.test_get_productIdList_api4),
+    path('get-product-ids5/', views.test_get_productIdList_api5),
+    path('get-product-ids6/', views.test_get_productIdList_api6),
 
     # test : pkl 저장하는 api
     path('save-pkl/', views.test_write_pkl_api),
