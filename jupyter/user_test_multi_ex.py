@@ -55,7 +55,7 @@ async def fetch():
 
 
 async def main():
-    futures = [asyncio.ensure_future(fetch()) for test in range(2)]  # 10개 원소 리스트
+    futures = [asyncio.ensure_future(fetch()) for test in range(20)]  # 10개 원소 리스트
     # 태스크(퓨처) 객체를 리스트로 만듦
     result = await asyncio.gather(*futures)  # 결과를 한꺼번에 가져옴 : 리스트 반환
     print(result)
